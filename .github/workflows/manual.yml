@@ -26,4 +26,5 @@ jobs:
     steps:
     # Runs a single command using the runners shell
     - name: pulling interests
+      run: npm ci
       run: npm run dev

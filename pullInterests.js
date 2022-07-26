@@ -122,6 +122,7 @@ function writeTemplateToHTML(_template) {
             // following operation overwrites the original file so output added to an extra file for testing purposes.
             // after testing, can be merged with the Original Primary Interests Html File.
             fs.writeFileSync("./Rodrigo Franco's Notes — Primary Interests(Output).html", resultTemplate)
+            console.log("Written to output file!");
         }
     })
 }
