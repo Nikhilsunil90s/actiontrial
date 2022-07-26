@@ -1,0 +1,17 @@
+{
+  "name": "flexcode",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node pullInterests.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dom-parser": "^0.1.6",
+    "jsdom": "^20.0.0",
+    "node-html-parser": "^5.3.3"
+  }
+}
