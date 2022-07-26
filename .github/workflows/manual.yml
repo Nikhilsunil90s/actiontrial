@@ -12,7 +12,7 @@ on:
         # Friendly description to be shown in the UI instead of 'name'
         description: 'Interests Puller'
         # Default value if no value is explicitly provided
-        default: 'World'
+        default: ''
         # Input has to be provided for the workflow to run
         required: false
 
@@ -27,4 +27,4 @@ jobs:
     steps:
     # Runs a single command using the runners shell
     - name: pulling interests
-      run: npm install & npm run dev
+      run: npm run dev
