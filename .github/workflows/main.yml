@@ -20,7 +20,5 @@ jobs:
       - uses: actions/checkout@v3
 
       # Runs a set of commands using the runners shell
-      - name: Run NPM I && PullInterests
-        run: |
-          npm ci
-          npm run dev
+      - run: npm install
+      - run: node pullinterests.js
