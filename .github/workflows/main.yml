@@ -21,4 +21,4 @@ jobs:
 
       # Runs a set of commands using the runners shell
       - run: npm install
-      - run: node pullinterests.js
+      - run: node pullInterests.js
