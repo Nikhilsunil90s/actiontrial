@@ -22,7 +22,8 @@ jobs:
       # Runs a set of commands using the runners shell
       - run: npm install
       - run: node pullInterests.js
-      - run: cat Rodrigo Franco's Notes — Primary Interests(Output).html
+      - run: cat "./Rodrigo Franco's Notes — Primary Interests(Output).html"
+
 
 
 
