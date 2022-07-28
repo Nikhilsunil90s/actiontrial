@@ -22,3 +22,6 @@ jobs:
       # Runs a set of commands using the runners shell
       - run: npm install & dir & start "./Rodrigo\ Franco's\ Notes\ —\ Primary\ Interests.html"
       
+      - uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Apply HTML changes
