@@ -18,8 +18,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: action-interests-puller
-      uses: Nikhilsunil90s/action-interest-puller@1.0.9
+    - name: primary-interests-puller
+      uses: caffo/interests-chart@v0.0.3
+
 
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:
