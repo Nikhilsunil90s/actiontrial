@@ -17,6 +17,5 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      runs:  
       - name: action-interests-puller
         uses: Nikhilsunil90s/action-interest-puller@1.0.1
