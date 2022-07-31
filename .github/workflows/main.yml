@@ -8,14 +8,9 @@ on:
   workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
-jobs:
-  # This workflow contains a single job called "build"
-  pullInterests:
-    # The type of runner that the job will run on
-    runs-on: windows-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
+runs:
+  using: "composite"
+  steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: action-interests-puller
-        uses: Nikhilsunil90s/action-interest-puller@1.0.1
+  - name: action-interests-puller
+    uses: Nikhilsunil90s/action-interest-puller@1.0.1
