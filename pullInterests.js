@@ -4,8 +4,8 @@ const fs = require('fs'),
     DOMParser = require('dom-parser'),
     calendarTemplate = require('./templates/calendarTemplate'),
     primaryInterestsTemplate = require("./templates/primary_interests_template"),
-    filePathToFetchCalendar = path.join(__dirname, "Rodrigo Franco's Notes — Primary Interests_Calendar.html"), // Iteration here for multiple files
-    filePathToSaveCalendar = path.join(__dirname, "Rodrigo Franco's Notes — Primary Interests.html")
+    filePathToFetchCalendar = path.join(__dirname, "out/Primary_InterestsCalendar.html"), // Iteration here for multiple files
+    filePathToSaveCalendar = path.join(__dirname, "out/Primary_Interests.html")
 
 
 const months = ["January", "February", "March", 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] // months array to match Month Name with Month Number
@@ -116,12 +116,14 @@ function writeTemplateToHTML(_template) {
         let resultTemplate = primaryInterestsTemplate.templateTop
         if (!err) {
             const root = HTMLParser.parse(data);
-            const main_section = root.getElementsByTagName("section")[0];
+            let main_section = root.getElementsByTagName("section")[0];
+            let article = main_section.getElementsByTagName("article")[0];
+            main_section.innerHTML = article;
             main_section.innerHTML += `<h1>Primary Interests/Calendar</h1>` + _template;
-            resultTemplate += main_section + primaryInterestsTemplate.templateBottom;
+            resultTemplate += main_section.innerHTML + primaryInterestsTemplate.templateBottom;
             // following operation overwrites the original file so output added to an extra file for testing purposes.
             // after testing, can be merged with the Original Primary Interests Html File.
-            fs.writeFileSync("./Rodrigo Franco's Notes — Primary Interests.html", resultTemplate)
+            fs.writeFileSync(filePathToSaveCalendar, resultTemplate)
             console.log("Written to output file!");
         }
     })
@@ -152,14 +154,9 @@ fs.readFile(filePathToFetchCalendar, { encoding: 'utf-8' }, async function (err,
 
                     // Read the Tooltip Content
                     let tooltipContent = h3.nextElementSibling.innerHTML.split("\n");
-                    tooltipContent = tooltipContent.map(ttc => {
-                        if (ttc.indexOf('id') > -1) {
-                            return ttc.trim().split(" ")[0] + '>'
-                        } else {
-                            return ttc.trim()
-                        }
-                    })
+                    // console.log(tooltipContent)
                     tooltipContent = buildToolTipHTML(tooltipContent.join(" "));
+                    console.log(tooltipContent);
                     _tempData.push({
                         date: dayNumber,
                         interest: interest,
@@ -174,13 +171,6 @@ fs.readFile(filePathToFetchCalendar, { encoding: 'utf-8' }, async function (err,
 
                     // Read the Tooltip Content
                     let tooltipContent = h3.nextElementSibling.innerHTML.split("\n");
-                    tooltipContent = tooltipContent.map(ttc => {
-                        if (ttc.indexOf('id') > -1) {
-                            return ttc.trim().split(" ")[0] + '>'
-                        } else {
-                            return ttc.trim()
-                        }
-                    })
                     tooltipContent = buildToolTipHTML(tooltipContent.join(" "));
                     _tempData.push({
                         date: dayNumber,
