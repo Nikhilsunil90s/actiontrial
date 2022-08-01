@@ -53,12 +53,23 @@ exports.templateBottom = `
         color: var(--text-color);
         font-family: var(--header-font);
     }
+
+    section > h1 {
+        font-size: xxx-large;
+
+    }
+
+    @media (max-width: 600px) {
+        section > h1 {
+            font-size: xx-large;
+        }
+    }
     
     a[href^="https://"]:after {
         background-image: none!important;
     }
     .calendar{
-        width: 600px;
+        width: 98%;
         height: auto;
         margin: auto;
         background-color: var(--bg-color);
@@ -126,7 +137,6 @@ exports.templateBottom = `
         cursor: pointer;
         background-color: var(--bg-color);
         color: var(--text-color);
-        position: relative;
         display: inline-block;
     }
 
@@ -142,7 +152,7 @@ exports.templateBottom = `
         margin-right: 0px !important;
         margin-bottom: 0px !important;
         line-height: 2em !important;
-        font-size: medium;
+        font-size: x-large;
     }
 
     .tooltip li{
@@ -173,7 +183,6 @@ exports.templateBottom = `
 
     .tooltip a {
         color: var(--link-color);
-        text-decoration: none;
     }
 
 </style>`    
