@@ -1,0 +1,128 @@
+@font-face {
+    font-family: 'Redaction';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Redaction'), url('https://fonts.cdnfonts.com/s/47238/Redaction-mL8P5.woff') format('woff');
+}
+@font-face {
+    font-family: 'Redaction';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Redaction'), url('https://fonts.cdnfonts.com/s/47238/RedactionItalic-lgB8w.woff') format('woff');
+}
+@font-face {
+    font-family: 'Redaction';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Redaction'), url('https://fonts.cdnfonts.com/s/47238/RedactionBold-d9yOZ.woff') format('woff');
+}
+@font-face {
+    font-family: 'Redaction 10';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Redaction 10'), url('https://fonts.cdnfonts.com/s/47238/Redaction10-1GX2v.woff') format('woff');
+}
+@font-face {
+    font-family: 'Redaction 100';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Redaction 100'), url('https://fonts.cdnfonts.com/s/47238/Redaction100-vmXR9.woff') format('woff');
+}
+@font-face {
+    font-family: 'Redaction 20';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Redaction 20'), url('https://fonts.cdnfonts.com/s/47238/Redaction20-YzPy2.woff') format('woff');
+}
+@font-face {
+    font-family: 'Redaction 35';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Redaction 35'), url('https://fonts.cdnfonts.com/s/47238/Redaction35-BWXjw.woff') format('woff');
+}
+@font-face {
+    font-family: 'Redaction 50';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Redaction 50'), url('https://fonts.cdnfonts.com/s/47238/Redaction50-8Mg4n.woff') format('woff');
+}
+@font-face {
+    font-family: 'Redaction 70';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Redaction 70'), url('https://fonts.cdnfonts.com/s/47238/Redaction70-RpXqE.woff') format('woff');
+}
+@font-face {
+    font-family: 'Redaction 10';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Redaction 10'), url('https://fonts.cdnfonts.com/s/47238/Redaction10Italic-nRYrO.woff') format('woff');
+}
+@font-face {
+    font-family: 'Redaction 100';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Redaction 100'), url('https://fonts.cdnfonts.com/s/47238/Redaction100Italic-rgDrK.woff') format('woff');
+}
+@font-face {
+    font-family: 'Redaction 20';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Redaction 20'), url('https://fonts.cdnfonts.com/s/47238/Redaction20Italic-K7ZJe.woff') format('woff');
+}
+@font-face {
+    font-family: 'Redaction 35';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Redaction 35'), url('https://fonts.cdnfonts.com/s/47238/Redaction35Italic-rgDrB.woff') format('woff');
+}
+@font-face {
+    font-family: 'Redaction 50';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Redaction 50'), url('https://fonts.cdnfonts.com/s/47238/Redaction50Italic-2ODWo.woff') format('woff');
+}
+@font-face {
+    font-family: 'Redaction 70';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Redaction 70'), url('https://fonts.cdnfonts.com/s/47238/Redaction70Italic-MV3Lv.woff') format('woff');
+}
+@font-face {
+    font-family: 'Redaction 10';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Redaction 10'), url('https://fonts.cdnfonts.com/s/47238/Redaction10Bold-w1gB6.woff') format('woff');
+}
+@font-face {
+    font-family: 'Redaction 100';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Redaction 100'), url('https://fonts.cdnfonts.com/s/47238/Redaction100Bold-7BE64.woff') format('woff');
+}
+@font-face {
+    font-family: 'Redaction 20';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Redaction 20'), url('https://fonts.cdnfonts.com/s/47238/Redaction20Bold-2ODWX.woff') format('woff');
+}
+@font-face {
+    font-family: 'Redaction 35';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Redaction 35'), url('https://fonts.cdnfonts.com/s/47238/Redaction35Bold-MV3LP.woff') format('woff');
+}
+@font-face {
+    font-family: 'Redaction 50';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Redaction 50'), url('https://fonts.cdnfonts.com/s/47238/Redaction50Bold-vmXRL.woff') format('woff');
+}
+@font-face {
+    font-family: 'Redaction 70';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Redaction 70'), url('https://fonts.cdnfonts.com/s/47238/Redaction70Bold-K7ZJX.woff') format('woff');
+}
+
+
