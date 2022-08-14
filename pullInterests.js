@@ -119,7 +119,7 @@ function writeTemplateToHTML(_template) {
             let main_section = root.getElementsByTagName("section")[0];
             let article = main_section.getElementsByTagName("article")[0];
             main_section.innerHTML = article;
-            main_section.innerHTML += `<h1>Primary Interests/Calendar</h1>` + _template;
+            main_section.innerHTML += `<div class="interests-calendars"><h1>Primary Interests/Calendar</h1>` + _template;
             resultTemplate += main_section.innerHTML + primaryInterestsTemplate.templateBottom;
             // following operation overwrites the original file so output added to an extra file for testing purposes.
             // after testing, can be merged with the Original Primary Interests Html File.
@@ -195,7 +195,7 @@ fs.readFile(filePathToFetchCalendar, { encoding: 'utf-8' }, async function (err,
         // In 2021 we check the interest indicator - (used in chart 2021)
         // In 2022 we check if new interest indicator is found, the 2021 interest indicator will change
 
-        years.forEach(function (year) {
+        years.reverse().forEach(function (year) {
             // Adding Calendar and Year Header Div to _template
             let previousYearValues = dataPromise.filter(dp => dp.year == year - 1)
             let maxDate = 0;
@@ -210,6 +210,7 @@ fs.readFile(filePathToFetchCalendar, { encoding: 'utf-8' }, async function (err,
                     interestIndicators.push(pvy.interest.trim()[0].toLocaleLowerCase())
                 }
             })
+            console.log(interestIndicators);
             _template +=
                 `<div class="calendar">
                 <!-- 100 -->` +
@@ -235,11 +236,9 @@ fs.readFile(filePathToFetchCalendar, { encoding: 'utf-8' }, async function (err,
                             return cy[0] == fillerValue[0] && cy.toLocaleLowerCase() != fillerValue.toLocaleLowerCase()
                         })
                         if (filterResult.length > 0) {
-                            console.log(fillerValue)
                             if (interestIndicators.indexOf(fillerValue[0].toLocaleLowerCase()) == -1) {
                                 interestIndicators.push(fillerValue[0].toLocaleLowerCase());
                             } else {
-                                console.log('passed');
                                 for (let o = 0; o < fillerValue.length; o++) {
                                     if (interestIndicators.indexOf(fillerValue[o].toLocaleLowerCase()) == -1) {
                                         _charIndex = o;
@@ -253,7 +252,6 @@ fs.readFile(filePathToFetchCalendar, { encoding: 'utf-8' }, async function (err,
                                 fillerValue = fillerValue[_charIndex];
                             }
                         } else {
-                            console.log("else in");
                             if (interestIndicators.indexOf(fillerValue[0].toLocaleLowerCase()) == -1) {
                                 interestIndicators.push(fillerValue[0].toLocaleLowerCase());
                             }

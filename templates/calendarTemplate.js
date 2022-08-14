@@ -8,6 +8,7 @@ exports.templateTop = `<!DOCTYPE html>
 <body>`
 
 exports.templateBottom = `
+</div>
 <style> 
 :root {
     --body-font: "Degular Text";
@@ -68,6 +69,11 @@ exports.templateBottom = `
     a[href^="https://"]:after {
         background-image: none!important;
     }
+
+    .interests-calendars {
+        margin-bottom: 50px;
+    }
+
     .calendar{
         width: 98%;
         height: auto;
@@ -127,10 +133,11 @@ exports.templateBottom = `
 
     .day:empty {
         cursor: auto;
-        background-color: var(--bg-color);
+        background-color: var(--lighter-divider-color);
         color: var(--text-color);
         position: relative;
         display: inline-block;
+        opacity: 0.8;
     }
 
     .day:not(:empty) {
