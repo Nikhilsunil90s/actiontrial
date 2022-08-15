@@ -2,6 +2,7 @@ const fs = require('fs'),
     path = require('path'),
     HTMLParser = require('node-html-parser'),
     DOMParser = require('dom-parser'),
+    fetch = require('node-fetch'),
     calendarTemplate = require('./templates/calendarTemplate'),
     primaryInterestsTemplate = require("./templates/primary_interests_template"),
     filePathToFetchCalendar = path.join(__dirname, "out/Primary_InterestsCalendar.html"), // Iteration here for multiple files
@@ -109,24 +110,50 @@ function buildToolTipHTML(elem) {
     return nodex.rawHTML;
 }
 
+
+
 // Write html to original primary interests page
-function writeTemplateToHTML(_template) {
-    // Read local copy of primary_interests.html
-    fs.readFile(filePathToSaveCalendar, { encoding: 'utf-8' }, function (err, data) {
-        let resultTemplate = primaryInterestsTemplate.templateTop
-        if (!err) {
-            const root = HTMLParser.parse(data);
-            let main_section = root.getElementsByTagName("section")[0];
+async function writeTemplateToHTML(_template) {
+    await fetch('https://www.rodrigofranco.com/Primary_Interests.html')
+        .then(function (response) {
+            switch (response.status) {
+                // status "OK"
+                case 200:
+                    return response.text();
+                // status "Not Found"
+                case 404:
+                    throw response;
+            }
+        })
+        .then(function (templ) {
+            const primary_interests_html = HTMLParser.parse(templ);
+            let main_section = primary_interests_html.getElementsByTagName("section")[0];
             let article = main_section.getElementsByTagName("article")[0];
-            main_section.innerHTML = article;
-            main_section.innerHTML += `<div class="interests-calendars"><h1>Primary Interests/Calendar</h1>` + _template;
-            resultTemplate += main_section.innerHTML + primaryInterestsTemplate.templateBottom;
-            // following operation overwrites the original file so output added to an extra file for testing purposes.
-            // after testing, can be merged with the Original Primary Interests Html File.
-            fs.writeFileSync(filePathToSaveCalendar, resultTemplate);
+            primary_interests_html.querySelector(".interests-calendars").remove();
+            article.insertAdjacentHTML("afterend", `<div id="interests-calendars"><h1>Primary Interests/Calendar</h1>` + _template);
+            fs.writeFileSync(filePathToSaveCalendar, primary_interests_html.innerHTML);
             console.log("Written to output file!");
-        }
-    })
+        })
+        .catch(function (response) {
+            // "Not Found"
+            console.log(response.statusText);
+        });
+    // Read local copy of primary_interests.html
+    // fs.readFile(filePathToSaveCalendar, { encoding: 'utf-8' }, function (err, data) {
+    //     let resultTemplate = primaryInterestsTemplate.templateTop
+    //     if (!err) {
+    //         const root = HTMLParser.parse(data);
+    //         let main_section = root.getElementsByTagName("section")[0];
+    //         let article = main_section.getElementsByTagName("article")[0];
+    //         main_section.innerHTML = article;
+    //         main_section.innerHTML += `<div class="interests-calendars"><h1>Primary Interests/Calendar</h1>` + _template;
+    //         resultTemplate += main_section.innerHTML + primaryInterestsTemplate.templateBottom;
+    //         // following operation overwrites the original file so output added to an extra file for testing purposes.
+    //         // after testing, can be merged with the Original Primary Interests Html File.
+    //         fs.writeFileSync(filePathToSaveCalendar, resultTemplate);
+    //         console.log("Written to output file!");
+    //     }
+    // })
 }
 
 // extract from Html file and create Html according to the pulled data
