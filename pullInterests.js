@@ -129,7 +129,6 @@ async function writeTemplateToHTML(_template) {
             const primary_interests_html = HTMLParser.parse(templ);
             let main_section = primary_interests_html.getElementsByTagName("section")[0];
             let article = main_section.getElementsByTagName("article")[0];
-            primary_interests_html.querySelector(".interests-calendars").remove();
             article.insertAdjacentHTML("afterend", `<div id="interests-calendars"><h1>Primary Interests/Calendar</h1>` + _template);
             fs.writeFileSync(filePathToSaveCalendar, primary_interests_html.innerHTML);
             console.log("Written to output file!");
@@ -222,7 +221,7 @@ fs.readFile(filePathToFetchCalendar, { encoding: 'utf-8' }, async function (err,
         // In 2021 we check the interest indicator - (used in chart 2021)
         // In 2022 we check if new interest indicator is found, the 2021 interest indicator will change
 
-        years.reverse().forEach(function (year) {
+        years.forEach(function (year) {
             // Adding Calendar and Year Header Div to _template
             let previousYearValues = dataPromise.filter(dp => dp.year == year - 1)
             let maxDate = 0;
