@@ -7,21 +7,20 @@ let breadcrumbedHeaderTemplate = `
 `;
 
 
-let headerLinks = localStorage.getItem("links") ? JSON.parse(localStorage.getItem("links")) : [];
-let hiddenLinks = localStorage.getItem("hiddenlinks") ? JSON.parse(localStorage.getItem('hiddenlinks')) : [];
-let currentPageTitle = localStorage.getItem("currentPageTitle") ? localStorage.getItem('currentPageTitle') : "";
 let tooltipContent = "";
 
 const createToolipContent = async () => {
 
     let hiddenBCSpan = document.getElementById("hiddenBCSpan");
     let _tooltipContent = ``;
-
+    let headerLinks = localStorage.getItem("links") ? JSON.parse(localStorage.getItem("links")) : [];
+    let hiddenLinks = localStorage.getItem("hiddenlinks") ? JSON.parse(localStorage.getItem('hiddenlinks')) : [];
     let _tooltipContentPromise = await new Promise((resolve, reject) => {
-        hiddenLinks.map((hnl, index) => {
-            _tooltipContent += `<a class="hiddenBC" style="padding: 10px;" href=${hnl.uri}>${currentPageTitle[index]}</a><br>`;
-
+        _tooltipContent += `<p style="text-align: center; margin-top: 0px; padding: 5px!important; font-size: 16px; font-weight: 600; line-height: 20px;background-color: grey;">Your Journey</p>`;
+        hiddenLinks.reverse().map((hnl, index) => {
+            _tooltipContent += `<p style="line-height: 10px;margin-top:15px;margin-bottom:15px;"><a class="hiddenBC" style="padding: 5px;position: relative;" href=${hnl.uri}>${currentPageTitle[currentPageTitle.length - 2 - index]}</a></p>`;
             if (index == hiddenLinks.length - 1) {
+                _tooltipContent += `<button id="button" style="display: none;color: #ffffff;cursor:pointer; text-decoration: underline; background-color: grey;border: 0px;padding: 5px;margin: 5px 55px;">Entries</button>`
                 resolve(_tooltipContent)
             }
         })
@@ -32,9 +31,7 @@ const createToolipContent = async () => {
         hiddenBCSpan.innerHTML = _tooltipContent;
     }
 
-
     let allHiddenBC = document.querySelectorAll(".hiddenBC");
-    console.log(allHiddenBC);
 
     if (allHiddenBC.length != 0) {
         allHiddenBC.forEach((abc, index) => {
@@ -44,11 +41,39 @@ const createToolipContent = async () => {
                 let _links = JSON.parse(localStorage.getItem("links"));
                 let _splitTitleIndex = _currentPageTitle.split(",").indexOf(_clicked);
                 let link = _links.slice(0, _splitTitleIndex + 1);
+                let ci = _currentPageTitle.split(",").slice(0, _splitTitleIndex + 1);
+                let hl = hiddenLinks.reverse().slice(0, _splitTitleIndex);
                 localStorage.setItem("links", JSON.stringify(link));
+                localStorage.setItem("hiddenlinks", JSON.stringify(hl));
+                localStorage.setItem("currentPageTitle", ci.join(",") + ",")
             })
         })
     }
 
+    if (allHiddenBC.length > 2) {
+        let btn = document.getElementById("button");
+        let _hidden = true;
+        for (let x = 3; x < allHiddenBC.length; x++) {
+            allHiddenBC[x].style.display = 'none';
+            btn.style.display = 'inline';
+            btn.innerHTML = `+ ${allHiddenBC.length - 3} Entries`;
+        }
+    }
+
+    let moreButton = document.querySelector("#button");
+    if (moreButton) {
+        moreButton.addEventListener("click", () => {
+            moreButton.style.display = 'inline!important';
+            for (let x = 3; x < allHiddenBC.length; x++) {
+                allHiddenBC[x].classList.toggle('toggleLinks');
+                if (allHiddenBC[x].getAttribute("class").indexOf('toggleLinks') > -1) {
+                    moreButton.innerHTML = "Less Entries";
+                } else {
+                    moreButton.innerHTML = `+ ${allHiddenBC.length - 3} Entries`;
+                }
+            }
+        })
+    }
 
     return _tooltipContentPromise;
 }
@@ -56,10 +81,15 @@ const createToolipContent = async () => {
 const createBreadCrumbs = async () => {
     let _template = "";
     let _hiddenBCTemplate = "";
+    let headerLinks = localStorage.getItem("links") ? JSON.parse(localStorage.getItem("links")) : [];
+    let hiddenLinks = localStorage.getItem("hiddenlinks") ? JSON.parse(localStorage.getItem('hiddenlinks')) : [];
+    let currentPageTitle = localStorage.getItem("currentPageTitle") ? localStorage.getItem('currentPageTitle') : "";
+
     currentPageTitle = currentPageTitle.split(",").filter(cPT => {
         return cPT != ""
     });
-    if (headerLinks.length < 4) {
+    if (headerLinks.length < 3) {
+        localStorage.setItem("hiddenlinks", JSON.stringify([]));
         headerLinks.map((headerLink, index) => {
             if (index == headerLinks.length - 1 && currentPageTitle[index]) {
                 _template += `<span style="margin-left: 7px; padding-top: 2px"> > </span>` +
@@ -67,7 +97,7 @@ const createBreadCrumbs = async () => {
                 </a>`
             } else {
                 _template += `<span style="margin-left: 7px; padding-top: 2px"> > </span>` +
-                    `<a id="headerLinks" style="margin-left: 7px; padding-top: 5px; position: relative" href=${headerLink.uri}>${currentPageTitle[index] ? (currentPageTitle[index].length > 4 ? currentPageTitle[index].slice(0, 11) + '..' : currentPageTitle[index]) : currentPageTitle[index]}
+                    `<a id="headerLinks" style="margin-left: 7px; padding-top: 5px; position: relative" href=${headerLink.uri}>${currentPageTitle[index] ? (currentPageTitle[index].length > 5 ? currentPageTitle[index].slice(0, 11) + '..' : currentPageTitle[index]) : currentPageTitle[index]}
                     ${currentPageTitle[index] ? (currentPageTitle[index].length > 4 ? `<span id="tooltip" style='display: none;'>${currentPageTitle[index]}</span>` : "") : ""}
                 </a>`
             }
@@ -82,14 +112,18 @@ const createBreadCrumbs = async () => {
                             <a id="hiddenLinks" style="margin-left: 7px; padding-top: 5px; cursor: pointer;">...`;
 
         let _bottomTemplate = `</a><span style="margin-left: 7px; padding-top: 2px"> > </span>` +
-            `<a style="margin-left: 7px; padding-top: 5px; text-decoration: underline;" href=${headerLinks[headerLinks.length - 1].uri}>${currentPageTitle[headerLinks.length - 1]}</a>`;
+            `<a style="margin-left: 7px;padding-top: 5px; text-decoration: underline; cursor: pointer;" href=${headerLinks[headerLinks.length - 1].uri}>${currentPageTitle[headerLinks.length - 1]}</a>`;
 
-        let _middleTemplate = `<span id="hiddenBCSpan" style="display: none; position: absolute;"></span>`;
+        let _middleTemplate = `<span id="hiddenBCSpan" style="display: none; position: absolute; width: 200px!important; margin-top: 20px;"></span>`;
         breadcrumbedHeaderTemplate += _topTemplate + _middleTemplate;
         breadcrumbedHeaderTemplate += _bottomTemplate;
     }
 
     breadcrumbedHeaderTemplate += `<style> 
+
+        .toggleLinks {
+                display: inline!important;
+        }
 
         #headerLinks {
             text-decoration: underline;
@@ -104,7 +138,6 @@ const createBreadCrumbs = async () => {
             color: #ffffff;
             width: max-content;
             border: 1px solid grey;
-            border-radius: 6px;
             text-align: center;
             padding: 5px;
         }
@@ -114,21 +147,19 @@ const createBreadCrumbs = async () => {
         }
 
         .hoverclass2 {
-            display: block !important;            
+            display: inline-block !important;            
             color: #ffffff;
             position: absolute;
             left: 19em;
             background-color: #35363a;
             border: 1px solid grey;
-            padding: 5px;
+            margin-top: 0px;
             z-index: 1;
             text-align: left;
-
         }
 
-        #hiddenBCSpan .hiddenBC {
-            diplay: inline-block !important;
-            position: relative;
+        #more {
+            display: none;
         }
 
         .hiddenBC {
@@ -157,7 +188,7 @@ const applyBreadcrumbs = () => {
             let clickedLink = headLink.innerHTML.split("\n")[0];
             let _indexForSlice = 0;
             _currentPageTitle.split(",").forEach((_cpt, index) => {
-                if (_cpt.slice(0, 7) == clickedLink.slice(0, 7)) {
+                if (_cpt.slice(0, 7).trim() == clickedLink.slice(0, 7).trim()) {
                     _indexForSlice = index;
                 }
             })
@@ -172,30 +203,21 @@ const applyBreadcrumbs = () => {
     })
 
     let hls = document.querySelectorAll("#hiddenLinks"); // hiddenlinks
-    // hls.forEach(hlink => {
-    //     hlink.addEventListener("click", () => {
-    //         let _currentPageTitle = localStorage.getItem("currentPageTitle");
-    //         _currentPageTitle = _currentPageTitle.split(",").slice(0, _currentPageTitle.split(",").length - 2)
-    //         localStorage.setItem('currentPageTitle', _currentPageTitle.join(",") + ",");
-    //         let lastItem = hiddenLinks[hiddenLinks.length - 1];
-    //         hiddenLinks = hiddenLinks.slice(0, hiddenLinks.length - 1);
-    //         headerLinks = headerLinks.slice(0, headerLinks.length - 1);
-    //         localStorage.setItem('links', JSON.stringify(headerLinks));
-    //         localStorage.setItem('hiddenlinks', JSON.stringify(hiddenLinks));
-    //         hlink.setAttribute("href", lastItem.uri);
-    //     })
-    // })
 
     let allHeaderLinks = document.querySelectorAll("#headerLinks")
 
     if (allHeaderLinks.length != 0) {
         allHeaderLinks.forEach((ahl, index) => {
             allHeaderLinks[index].addEventListener("mouseover", () => {
-                allHeaderLinks[index].querySelector("#tooltip").classList.add('hoverclass');
+                allHeaderLinks[index].querySelector("#tooltip") ?
+                    allHeaderLinks[index].querySelector("#tooltip").classList.add('hoverclass') :
+                    null;
             })
 
             allHeaderLinks[index].addEventListener("mouseleave", () => {
-                allHeaderLinks[index].querySelector("#tooltip").classList.remove('hoverclass');
+                allHeaderLinks[index].querySelector("#tooltip") ?
+                    allHeaderLinks[index].querySelector("#tooltip").classList.remove('hoverclass') :
+                    null;
             })
         })
 
@@ -206,11 +228,15 @@ const applyBreadcrumbs = () => {
     if (allHiddenLinks.length != 0) {
         allHiddenLinks.forEach((ahl, index) => {
             allHiddenLinks[index].addEventListener("mouseover", () => {
-                document.querySelector("#hiddenBCSpan").classList.add('hoverclass2');
+                document.querySelector("#hiddenBCSpan") ?
+                    document.querySelector("#hiddenBCSpan").classList.add('hoverclass2') :
+                    null;
             })
 
             allHiddenLinks[index].addEventListener("mouseleave", () => {
-                document.querySelector("#hiddenBCSpan").classList.remove('hoverclass2');
+                document.querySelector("#hiddenBCSpan") ?
+                    document.querySelector("#hiddenBCSpan").classList.remove('hoverclass2') :
+                    null;
             })
         })
 
@@ -219,12 +245,32 @@ const applyBreadcrumbs = () => {
 }
 
 window.onload = async () => {
+
+
+    let headerLinks = localStorage.getItem("links") ? JSON.parse(localStorage.getItem("links")) : [];
+    let hiddenLinks = localStorage.getItem("hiddenlinks") ? JSON.parse(localStorage.getItem('hiddenlinks')) : [];
+    let currentPageTitle = localStorage.getItem("currentPageTitle") ? localStorage.getItem('currentPageTitle') : "";
+
+
+    if (performance.getEntriesByType("navigation")[0].type == 'back_forward') {
+        let link = headerLinks.slice(0, headerLinks.length - 1)
+        localStorage.setItem("links", JSON.stringify(link));
+        let hl = hiddenLinks.slice(0, hiddenLinks.length - 1);
+        localStorage.setItem("hiddenlinks", JSON.stringify(hl));
+        let ci = currentPageTitle.split(",").slice(0, currentPageTitle.split(",").length - 2);
+        ci.length < 1 ? localStorage.setItem("currentPageTitle", ci.join(",")) : localStorage.setItem("currentPageTitle", ci.join(",") + ",");
+    }
+
     let pagePromise = await new Promise((resolve, reject) => {
         let pageTitle = document.querySelectorAll("[data-title]");
         let pT = pageTitle[0].dataset.title;
+        if (pT.indexOf(",") > -1) {
+            pT = pT.split(",")[0];
+        }
         resolve(pT);
     })
     if (pagePromise !== 'Website Index') {
+        console.log(pagePromise);
         if (currentPageTitle.indexOf(pagePromise) == -1) {
             currentPageTitle += pagePromise + ",";
             localStorage.setItem("currentPageTitle", currentPageTitle);
@@ -233,14 +279,13 @@ window.onload = async () => {
 
     let element_a = document.querySelectorAll("a");
 
-    if (headerLinks != []) {
-        createBreadCrumbs();
-        applyBreadcrumbs();
-    }
-
+    createBreadCrumbs();
+    applyBreadcrumbs();
     if (hiddenLinks != []) {
         createToolipContent();
     }
+
+
 
     element_a.forEach(element => {
         element.addEventListener("click", () => {
@@ -249,6 +294,13 @@ window.onload = async () => {
                 uri: uri,
             }
             addHeaderLinks(_headerData);
+            if (typeof window.history.pushState === "function") {
+                window.history.pushState(uri, null, null);
+
+            }
+
         })
     })
+
+
 }
