@@ -3,7 +3,7 @@ let breadcrumbedHeaderTemplate = `
         window.localStorage.removeItem('links')
         window.localStorage.removeItem('hiddenlinks')
         window.localStorage.removeItem('currentPageTitle')
-    })();"><h1 class="flex-item">Home</h1></a>
+    })();">Home</a>
 `;
 
 
@@ -96,12 +96,12 @@ const createBreadCrumbs = async () => {
         headerLinks.map((headerLink, index) => {
             if (index == headerLinks.length - 1 && currentPageTitle[index]) {
                 _template += `<span style="margin-left: 7px; padding-top: 2px; font-size: 10px; line-height: 30px;"> > </span>` +
-                    `<a id="headerLinks"  style="margin-left: 7px; padding-top: 5px" href=${headerLink.uri}><h1 class="flex-item">${currentPageTitle[index]}</h1>
+                    `<a id="headerLinks" style="margin-left: 7px; padding-top: 5px" href=${headerLink.uri}>${currentPageTitle[index]}
                 </a>`
             } else {
                 _template += `<span style="margin-left: 7px; padding-top: 2px; font-size: 10px; line-height: 30px;"> > </span>` +
-                    `<a id="headerLinks" style="margin-left: 7px; padding-top: 5px; position: relative" href=${headerLink.uri}><h1 class="flex-item">${currentPageTitle[index] ? (currentPageTitle[index].length > 5 ? currentPageTitle[index].slice(0, 11) + '..' : currentPageTitle[index]) : currentPageTitle[index]}
-                    ${currentPageTitle[index] ? (currentPageTitle[index].length > 4 ? `<span id="tooltip" style='display: none;'>${currentPageTitle[index]}</span>` : "") : ""}</h1>
+                    `<a id="headerLinks" style="margin-left: 7px; padding-top: 5px; position: relative" href=${headerLink.uri}>${currentPageTitle[index] ? (currentPageTitle[index].length > 5 ? currentPageTitle[index].slice(0, 11) + '..' : currentPageTitle[index]) : currentPageTitle[index]}
+                    ${currentPageTitle[index] ? (currentPageTitle[index].length > 4 ? `<span id="tooltip" style='display: none;'>${currentPageTitle[index]}</span>` : "") : ""}
                 </a>`
             }
         })
@@ -112,12 +112,10 @@ const createBreadCrumbs = async () => {
         }
         window.localStorage.setItem('hiddenlinks', JSON.stringify(hiddenLinks));
         let _topTemplate = `<span style="margin-left: 7px; padding-top: 2px; font-size: 10px; line-height: 30px;"> > </span>
-                            <a id="hiddenLinks" style="margin-left: 7px; cursor: pointer;">...`;
+                            <a id="hiddenLinks" style="margin-left: 7px; padding-top: 5px; cursor: pointer;">...`;
 
         let _bottomTemplate = `</a><span style="margin-left: 7px; padding-top: 2px; font-size: 10px; line-height: 30px;"> > </span>` +
-            `<a style="margin-left: 7px;padding-top: 5px; text-decoration: underline; cursor: pointer;" href=${headerLinks[headerLinks.length - 1].uri}>
-            <h1 class="flex-item">${currentPageTitle[headerLinks.length - 1]}</h1>
-            </a>`;
+            `<a style="margin-left: 7px;padding-top: 5px; text-decoration: underline; cursor: pointer;" href=${headerLinks[headerLinks.length - 1].uri}>${currentPageTitle[headerLinks.length - 1]}</a>`;
 
         let _middleTemplate = `<span id="hiddenBCSpan" style="display: none; position: absolute; width: 200px!important; margin-top: 20px;"></span>`;
         breadcrumbedHeaderTemplate += _topTemplate + _middleTemplate;
@@ -125,15 +123,6 @@ const createBreadCrumbs = async () => {
     }
 
     breadcrumbedHeaderTemplate += `<style> 
-
-    header > div > a > .flex-item {
-        font-size: .75rem;
-    line-height: 3rem;
-    margin: 0;
-    margin-bottom: -0.5rem;
-    font-family: var(--body-font);
-    font-weight: 400;
-    }
 
         .toggleLinks {
                 display: inline!important;
@@ -167,6 +156,7 @@ const createBreadCrumbs = async () => {
             left: 15em;
             background-color: #35363a;
             border: 1px solid grey;
+            margin-top: 10px;
             z-index: 1;
             text-align: left;
         }
@@ -193,7 +183,7 @@ const addHeaderLinks = (headerLinkData) => {
 const applyBreadcrumbs = () => {
     let _header = document.querySelector("header");
     let rightSection = _header.innerHTML.slice(_header.innerHTML.indexOf("<div>"));
-    _header.innerHTML = `<div style="overflow: hidden; position: relative;">` + breadcrumbedHeaderTemplate + `</div>` + rightSection;
+    _header.innerHTML = `<div>` + breadcrumbedHeaderTemplate + `</div>` + rightSection;
     let hrs = document.querySelectorAll("#headerLinks"); // headerlinks
     hrs.forEach((headLink, index) => {
         headLink.addEventListener("click", () => {
@@ -316,4 +306,6 @@ window.onload = async () => {
 
         })
     })
+
+
 }
