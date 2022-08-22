@@ -193,7 +193,7 @@ const addHeaderLinks = (headerLinkData) => {
 const applyBreadcrumbs = () => {
     let _header = document.querySelector("header");
     let rightSection = _header.innerHTML.slice(_header.innerHTML.indexOf("<div>"));
-    _header.innerHTML = `<div style="overflow: hidden; position: relative;">` + breadcrumbedHeaderTemplate + `</div>` + rightSection;
+    _header.innerHTML = breadcrumbedHeaderTemplate + rightSection;
     let hrs = document.querySelectorAll("#headerLinks"); // headerlinks
     hrs.forEach((headLink, index) => {
         headLink.addEventListener("click", () => {
